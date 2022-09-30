@@ -1,0 +1,34 @@
+class Solution {
+    public int[] intersect(int[] nums1, int[] nums2) {
+        List<Integer> result = new ArrayList<>();
+        Map<Integer, Integer> map = buildCountMap(nums1);
+
+        // check nums2 against the map
+        for (int num : nums2) {
+            if (map.containsKey(num) && map.get(num) > 0) {
+                result.add(num);
+                map.put(num, map.get(num) - 1);
+            }
+        }
+        
+        return convertToArray(result);
+    }
+    
+    // fill nums into map
+    private Map<Integer, Integer> buildCountMap(int[] nums) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int num : nums) {
+            map.putIfAbsent(num, 0);
+            map.put(num, map.get(num) + 1);
+        }
+        return map;
+    }
+    
+    private int[] convertToArray(List<Integer> list) {
+        int[] rst = new int[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            rst[i] = list.get(i);
+        }
+        return rst;
+    }
+}
