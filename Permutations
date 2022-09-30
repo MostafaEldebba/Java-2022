@@ -1,0 +1,30 @@
+class Solution {
+	public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> rst = new ArrayList<>();
+		if (nums == null || nums.length == 0) return rst;
+
+        Queue<Integer> queue = new LinkedList<>();
+        for (int num : nums) queue.offer(num); // [1, 2, 3]
+		
+		dfs(rst, new ArrayList<>(), queue);
+		return rst;
+    }
+
+    private void dfs(List<List<Integer>> rst, List<Integer> list, Queue<Integer> queue) {
+        if (queue.isEmpty()) {
+            rst.add(new ArrayList<>(list));
+            return;
+        }
+        int size = queue.size();
+        while (size-- > 0) {
+            int val = queue.poll(); // queue maintains the remaining list in processing order: simulates pick/not-pick
+            list.add(val);
+
+            dfs(rst, list, queue);
+
+            // backtracking
+            list.remove(list.size() - 1); 
+            queue.offer(val);
+        }
+    }
+}
